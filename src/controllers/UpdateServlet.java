@@ -13,23 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 import models.Message;
 import utils.DBUtil;
 
-/**
- * Servlet implementation class UpdateServlet
- */
 @WebServlet("/update")
 public class UpdateServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public UpdateServlet() {
         super();
     }
 
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String _token = request.getParameter("_token");
         if(_token != null && _token.equals(request.getSession().getId())) {
@@ -37,7 +28,7 @@ public class UpdateServlet extends HttpServlet {
 
             // セッションスコープからメッセージのIDを取得して
             // 該当のIDのメッセージ1件のみをデータベースから取得
-            Message m = em.find(Message.class, (Integer)(request.getSession().getAttribute("message_id")));
+            Message m = em.find(Message.class, (Integer)(request.getSession().getAttribute("")));
 
             // フォームの内容を各フィールドに上書き
             String title = request.getParameter("title");
@@ -55,7 +46,7 @@ public class UpdateServlet extends HttpServlet {
             em.close();
 
             // セッションスコープ上の不要になったデータを削除
-            request.getSession().removeAttribute("message_id");
+            request.getSession().removeAttribute("");
 
             // indexページへリダイレクト
             response.sendRedirect(request.getContextPath() + "/index");
